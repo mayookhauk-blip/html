@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0d10" />
+  <meta name="description" content="A personal portfolio showcasing data science, thoughtful design, and creative exploration." />
+  <title>Mayookha — Portfolio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+    :root {
+      --bg: #0b0d10; --panel: #111419; --panel-2: #15191f; --text: #f1f2ed;
+      --muted: #9a9fa8; --line: rgba(255,255,255,.1); --accent: #c4f06b;
+      --accent-2: #a4c8ff; --radius: 22px; --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: Manrope, sans-serif; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    ::selection { background: var(--accent); color: #0b0d10; }
+    .wrap { width: min(var(--max), calc(100% - 48px)); margin: auto; }
+    .mono { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .13em; text-transform: uppercase; }
+    .topbar { position: fixed; z-index: 20; inset: 0 0 auto; background: rgba(11,13,16,.78); backdrop-filter: blur(16px); border-bottom: 1px solid transparent; transition: border-color .3s; }
+    .topbar.scrolled { border-color: var(--line); }
+    .nav { height: 76px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.04em; font-size: 17px; }
+    .brand-mark { display: grid; place-items: center; width: 30px; height: 30px; background: var(--accent); color: #0b0d10; border-radius: 9px; font-size: 14px; font-weight: 800; transform: rotate(-7deg); }
+    .nav-links { display: flex; align-items: center; gap: 29px; color: #b7bbc2; font-size: 12px; font-weight: 600; }
+    .nav-links a { transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .nav-cta { color: var(--bg) !important; background: var(--accent); padding: 10px 15px; border-radius: 100px; }
+    .menu-btn { display: none; border: 1px solid var(--line); background: transparent; color: var(--text); border-radius: 10px; padding: 8px 11px; cursor: pointer; }
+    .hero { min-height: 790px; padding: 150px 0 90px; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; width: 620px; height: 620px; right: -150px; top: 75px; background: radial-gradient(circle, rgba(196,240,107,.13), transparent 68%); pointer-events: none; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: 70px; }
+    .eyebrow { display: flex; align-items: center; gap: 12px; color: var(--accent); margin-bottom: 24px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px rgba(196,240,107,.1); }
+    h1 { font-size: clamp(52px, 7vw, 88px); line-height: .99; letter-spacing: -.075em; margin: 0; font-weight: 700; }
+    h1 .soft { color: #8b9098; }
+    .hero-copy { color: #a8adb5; font-size: 17px; max-width: 570px; margin: 28px 0 32px; }
+    .hero-copy strong { color: var(--text); font-weight: 600; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 13px 18px; border: 1px solid var(--line); border-radius: 100px; font-size: 12px; font-weight: 700; transition: transform .2s, background .2s, border-color .2s; }
+    .btn:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.3); }
+    .btn.primary { background: var(--accent); color: #10130b; border-color: var(--accent); }
+    .btn.primary:hover { background: #d3ff7e; }
+    .hero-card { min-height: 420px; border: 1px solid var(--line); border-radius: 30px; background: linear-gradient(145deg, #171c22, #0e1115); position: relative; padding: 24px; overflow: hidden; transform: rotate(2deg); box-shadow: 0 35px 90px rgba(0,0,0,.28); }
+    .card-top { display: flex; justify-content: space-between; color: #7f8791; }
+    .orbital { position: absolute; inset: 70px 20px 30px; display: grid; place-items: center; }
+    .orbit { position: absolute; border: 1px solid rgba(196,240,107,.2); border-radius: 50%; width: 300px; height: 300px; }
+    .orbit.two { width: 220px; height: 220px; border-color: rgba(164,200,255,.25); }
+    .orbit.three { width: 140px; height: 140px; border-color: rgba(255,255,255,.15); }
+    .orbit::after { content: ''; position: absolute; top: 15%; right: 13%; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 18px var(--accent); }
+    .orbit.two::after { top: auto; bottom: 15%; right: auto; left: 13%; background: var(--accent-2); box-shadow: 0 0 18px var(--accent-2); }
+    .monogram { width: 105px; height: 105px; display: grid; place-items: center; border-radius: 30px; background: linear-gradient(145deg, #d5f9a0, #9bc65d); color: #12170c; font-size: 54px; letter-spacing: -.09em; font-weight: 800; box-shadow: 0 15px 45px rgba(196,240,107,.14); }
+    .floating-label { position: absolute; padding: 10px 13px; border: 1px solid var(--line); border-radius: 12px; background: rgba(20,24,29,.88); color: #c9cdd2; font-size: 11px; backdrop-filter: blur(8px); }
+    .label-one { left: 6%; top: 26%; } .label-two { right: 3%; bottom: 25%; }
+    .card-bottom { position: absolute; bottom: 22px; left: 24px; right: 24px; display: flex; justify-content: space-between; color: #7f8791; }
+    section { padding: 110px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 48px; }
+    .section-kicker { color: var(--accent); margin-bottom: 15px; }
+    h2 { margin: 0; font-size: clamp(35px, 4.5vw, 56px); letter-spacing: -.065em; line-height: 1.05; }
+    .section-note { color: var(--muted); max-width: 340px; font-size: 13px; }
+    .about-grid { display: grid; grid-template-columns: .75fr 1.25fr; gap: 85px; }
+    .about-stamp { min-height: 280px; border-radius: var(--radius); background: var(--accent); color: #11150c; padding: 27px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; position: relative; }
+    .about-stamp::after { content: '✳'; position: absolute; font-size: 220px; right: -40px; bottom: -100px; line-height: 1; opacity: .15; }
+    .stamp-big { font-size: 66px; font-weight: 800; letter-spacing: -.09em; line-height: .9; }
+    .stamp-bottom { display: flex; justify-content: space-between; align-items: end; font-size: 12px; font-weight: 700; }
+    .about-text p { color: #a8adb5; margin: 0 0 20px; font-size: 16px; }
+    .about-text p:first-child { color: #e4e6e1; font-size: 20px; line-height: 1.55; }
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 35px; }
+    .fact { padding: 17px; border: 1px solid var(--line); border-radius: 15px; }
+    .fact strong { display: block; font-size: 22px; letter-spacing: -.05em; }
+    .fact span { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; }
+    .projects { background: #0e1013; border-block: 1px solid rgba(255,255,255,.04); }
+    .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .project { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--panel); transition: transform .25s, border-color .25s; }
+    .project:hover { transform: translateY(-6px); border-color: rgba(196,240,107,.4); }
+    .project-visual { height: 260px; position: relative; overflow: hidden; display: grid; place-items: center; }
+    .visual-water { background: linear-gradient(135deg, #1c3335, #121b20); }
+    .visual-water .water-card { width: 72%; background: rgba(10,16,19,.72); border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: 17px; transform: rotate(-3deg); }
+    .water-title { color: #e3f0eb; font-size: 12px; font-weight: 700; margin-bottom: 15px; }
+    .bars { display: flex; align-items: end; height: 100px; gap: 8px; }
+    .bars i { display: block; flex: 1; border-radius: 4px 4px 0 0; background: linear-gradient(to top, #72b8a8, #c4f06b); opacity: .8; }
+    .bars i:nth-child(1){height:35%}.bars i:nth-child(2){height:60%}.bars i:nth-child(3){height:45%}.bars i:nth-child(4){height:78%}.bars i:nth-child(5){height:55%}.bars i:nth-child(6){height:92%}.bars i:nth-child(7){height:70%}
+    .visual-regression { background: linear-gradient(135deg, #1c2233, #11141b); }
+    .scatter { width: 78%; height: 70%; position: relative; border-left: 1px solid #566176; border-bottom: 1px solid #566176; background: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px); background-size: 25% 25%; }
+    .scatter::before { content: ''; position: absolute; inset: 10% 5% 8%; background: linear-gradient(140deg, transparent 48%, rgba(164,200,255,.8) 49%, rgba(164,200,255,.8) 51%, transparent 52%); }
+    .scatter span { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 10px rgba(164,200,255,.5); }
+    .scatter span:nth-child(1){left:15%;bottom:20%}.scatter span:nth-child(2){left:25%;bottom:34%}.scatter span:nth-child(3){left:39%;bottom:38%}.scatter span:nth-child(4){left:49%;bottom:51%}.scatter span:nth-child(5){left:63%;bottom:58%}.scatter span:nth-child(6){left:75%;bottom:75%}.scatter span:nth-child(7){left:83%;bottom:80%}
+    .visual-agent { background: linear-gradient(135deg, #2a2635, #15121c); }
+    .agent-ui { width: 70%; border: 1px solid rgba(255,255,255,.14); border-radius: 15px; background: rgba(14,12,18,.65); padding: 18px; }
+    .agent-row { display: flex; align-items: center; gap: 10px; margin: 11px 0; font-size: 10px; color: #c4c0ce; }
+    .agent-icon { width: 22px; height: 22px; display: grid; place-items: center; border-radius: 7px; background: #d5a9ff; color: #1b1026; }
+    .agent-line { height: 5px; flex: 1; border-radius: 10px; background: rgba(255,255,255,.1); }
+    .visual-art { background: linear-gradient(135deg, #3a3025, #171512); }
+    .art-shape { width: 175px; height: 175px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #f3d19a, #bd795a 42%, #63433c 72%); box-shadow: 45px 30px 0 -12px #b6bd87, -38px 40px 0 -20px #d6a3a1; transform: rotate(-18deg); }
+    .project-content { padding: 24px; }
+    .project-meta { display: flex; justify-content: space-between; color: #858b94; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; }
+    .project h3 { margin: 12px 0 8px; font-size: 22px; letter-spacing: -.05em; }
+    .project p { color: var(--muted); font-size: 13px; margin: 0 0 18px; max-width: 460px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag { border: 1px solid var(--line); border-radius: 100px; padding: 5px 9px; color: #aeb3bb; font-size: 10px; }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .skill-panel { border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; background: var(--panel); }
+    .skill-panel h3 { margin: 0 0 22px; font-size: 15px; }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 9px; }
+    .skill { border-radius: 100px; background: #1b2026; padding: 9px 13px; color: #c2c6cd; font-size: 12px; transition: background .2s, color .2s; }
+    .skill:hover { background: var(--accent); color: #10130b; }
+    .interest-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .interest { border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; min-height: 190px; background: linear-gradient(145deg, #15191f, #101216); transition: transform .25s; }
+    .interest:hover { transform: translateY(-5px); }
+    .interest-icon { width: 40px; height: 40px; display: grid; place-items: center; background: #222a21; color: var(--accent); border-radius: 12px; font-size: 19px; margin-bottom: 22px; }
+    .interest h3 { margin: 0 0 8px; font-size: 17px; }
+    .interest p { margin: 0; color: var(--muted); font-size: 12px; }
+    .contact { padding: 105px 0 70px; background: var(--accent); color: #11150b; }
+    .contact h2 { font-size: clamp(48px, 7vw, 88px); max-width: 800px; }
+    .contact-bottom { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-top: 45px; }
+    .contact-bottom p { max-width: 360px; font-size: 14px; }
+    .contact .btn { border-color: rgba(17,21,11,.25); }
+    .contact .btn:hover { background: rgba(17,21,11,.08); }
+    footer { background: var(--accent); color: #11150b; padding: 0 0 25px; }
+    .footer-line { border-top: 1px solid rgba(17,21,11,.2); padding-top: 20px; display: flex; justify-content: space-between; color: rgba(17,21,11,.7); font-size: 11px; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 850px) {
+      .hero { min-height: auto; padding: 130px 0 80px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-card { max-width: 480px; width: 100%; min-height: 350px; margin: auto; }
+      .about-grid { grid-template-columns: 1fr; gap: 30px; }
+      .about-stamp { min-height: 220px; }
+      .project-visual { height: 220px; }
+      .nav-links { gap: 18px; }
+    }
+    @media (max-width: 640px) {
+      .wrap { width: min(var(--max), calc(100% - 32px)); }
+      .nav { height: 68px; }
+      .menu-btn { display: inline-flex; }
+      .nav-links { display: none; position: absolute; top: 68px; left: 16px; right: 16px; padding: 18px; background: #15191f; border: 1px solid var(--line); border-radius: 16px; flex-direction: column; align-items: stretch; gap: 15px; }
+      .nav-links.open { display: flex; }
+      .nav-cta { text-align: center; }
+      .hero { padding: 115px 0 65px; }
+      h1 { font-size: clamp(48px, 14vw, 70px); }
+      .hero-copy { font-size: 15px; }
+      .hero-card { min-height: 310px; padding: 18px; }
+      .orbit { width: 240px; height: 240px; } .orbit.two { width: 175px; height: 175px; } .orbit.three { width: 115px; height: 115px; }
+      .monogram { width: 82px; height: 82px; font-size: 43px; border-radius: 24px; }
+      .floating-label { font-size: 9px; padding: 8px 10px; }
+      section { padding: 75px 0; }
+      .section-head { display: block; margin-bottom: 32px; }
+      .section-note { margin-top: 18px; }
+      .facts { grid-template-columns: 1fr; }
+      .project-grid, .skills-grid, .interest-row { grid-template-columns: 1fr; }
+      .project-visual { height: 230px; }
+      .contact { padding: 75px 0 35px; }
+      .contact-bottom { display: block; }
+      .contact-bottom .actions { margin-top: 25px; }
+      .footer-line { flex-direction: column; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar" id="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="Mayookha home"><span class="brand-mark">M.</span> mayookha<span style="color:var(--accent)">.</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#about">About</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#interests">Interests</a><a class="nav-cta" href="#contact">Let's connect ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="wrap hero-grid">
+        <div class="reveal">
+          <div class="eyebrow mono"><span class="dot"></span> Data science student · Creative thinker</div>
+          <h1>Curious by nature.<br><span class="soft">Driven by data.</span></h1>
+          <p class="hero-copy">Hi, I'm <strong>Mayookha</strong> — a Data Science & Mathematics student exploring the space between analytical thinking, emerging technology, and creative ideas.</p>
+          <div class="actions">
+            <a class="btn primary" href="#projects">Explore my work <span>↘</span></a>
+            <a class="btn" href="#contact">Get in touch <span>↗</span></a>
+          </div>
+        </div>
+        <div class="hero-card reveal" aria-label="Decorative abstract portfolio illustration">
+          <div class="card-top mono"><span>PERSONAL PORTFOLIO</span><span>2026 — ∞</span></div>
+          <div class="orbital">
+            <div class="orbit"></div><div class="orbit two"></div><div class="orbit three"></div>
+            <div class="monogram">M.</div>
+          </div>
+          <div class="floating-label label-one mono">DATA × DESIGN</div>
+          <div class="floating-label label-two mono">Always learning ↗</div>
+          <div class="card-bottom mono"><span>IN / BENGALURU</span><span>01 — 04</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><div class="section-kicker mono">01 / A little about me</div><h2>Learning to make<br>meaning from data.</h2></div>
+          <p class="section-note">A mix of logical thinking, experimentation, and a creative eye.</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-stamp reveal">
+            <div class="mono">A mind in progress</div>
+            <div class="stamp-big">Stay<br>curious.</div>
+            <div class="stamp-bottom"><span>DATA SCIENCE<br>& MATHEMATICS</span><span>✳</span></div>
+          </div>
+          <div class="about-text reveal">
+            <p>I'm currently pursuing a B.Sc. in Data Science and Mathematics at Christ University, Bengaluru. I enjoy discovering how data can help us understand the world and solve real problems.</p>
+            <p>I'm building my foundation in programming, statistics, and analytical methods while exploring the possibilities of AI and machine learning. I believe good work starts with asking better questions—and staying open to what the answers reveal.</p>
+            <p>Outside the classroom, I enjoy drawing, painting, collaborating with people, and taking part in community and campus activities.</p>
+            <div class="facts">
+              <div class="fact"><strong>2028</strong><span>Expected graduation</span></div>
+              <div class="fact"><strong>AI / ML</strong><span>Areas I'm exploring</span></div>
+              <div class="fact"><strong>∞</strong><span>Things to learn</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects" id="projects">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><div class="section-kicker mono">02 / Selected explorations</div><h2>Ideas, in progress.</h2></div>
+          <p class="section-note">A few project concepts and academic explorations. Replace these with your completed work and links as you build.</p>
+        </div>
+        <div class="project-grid">
+          <article class="project reveal">
+            <div class="project-visual visual-water"><div class="water-card"><div class="water-title">Water access · Bengaluru</div><div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+            <div class="project-content"><div class="project-meta"><span>01 / Optimization</span><span>Academic concept</span></div><h3>Public Water Station Placement</h3><p>Exploring how mathematical optimization could support equitable access to public drinking-water stations across Bengaluru.</p><div class="tags"><span class="tag">Python</span><span class="tag">Optimization</span><span class="tag">Data analysis</span></div></div>
+          </article>
+          <article class="project reveal">
+            <div class="project-visual visual-regression"><div class="scatter"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+            <div class="project-content"><div class="project-meta"><span>02 / Statistics</span><span>Mini project concept</span></div><h3>Study Hours & Academic Performance</h3><p>A regression-focused study investigating the relationship between time spent studying and student marks using collected or open data.</p><div class="tags"><span class="tag">Regression</span><span class="tag">Statistics</span><span class="tag">Visualization</span></div></div>
+          </article>
+          <article class="project reveal">
+            <div class="project-visual visual-agent"><div class="agent-ui"><div class="mono" style="color:#d5a9ff">INTELLIGENT AGENT / FLOOD RISK</div><div class="agent-row"><span class="agent-icon">↗</span><span>Rainfall input</span><span class="agent-line"></span></div><div class="agent-row"><span class="agent-icon">⌁</span><span>Water level</span><span class="agent-line"></span></div><div class="agent-row"><span class="agent-icon">◎</span><span>Risk assessment</span><span class="agent-line"></span></div></div></div>
+            <div class="project-content"><div class="project-meta"><span>03 / Artificial intelligence</span><span>Academic concept</span></div><h3>Flood Risk Alert Agent</h3><p>A rule-based intelligent agent concept that evaluates weather and water-level inputs to assign a risk category and communicate alerts.</p><div class="tags"><span class="tag">AI</span><span class="tag">Decision systems</span><span class="tag">Python</span></div></div>
+          </article>
+          <article class="project reveal">
+            <div class="project-visual visual-art"><div class="art-shape"></div></div>
+            <div class="project-content"><div class="project-meta"><span>04 / Creative practice</span><span>Personal</span></div><h3>Art & Visual Experiments</h3><p>A small collection of sketches, paintings, and visual ideas—an ongoing practice in observing, making, and finding inspiration.</p><div class="tags"><span class="tag">Drawing</span><span class="tag">Painting</span><span class="tag">Creative process</span></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><div class="section-kicker mono">03 / The toolkit</div><h2>Skills I'm growing.</h2></div>
+          <p class="section-note">A snapshot of the tools and strengths I'm developing through coursework and practice.</p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-panel reveal"><h3>Technical</h3><div class="skill-list"><span class="skill">Python</span><span class="skill">SQL</span><span class="skill">Java</span><span class="skill">Excel</span><span class="skill">Data visualization</span><span class="skill">Statistics</span><span class="skill">HTML & CSS</span></div></div>
+          <div class="skill-panel reveal"><h3>Personal</h3><div class="skill-list"><span class="skill">Problem solving</span><span class="skill">Communication</span><span class="skill">Teamwork</span><span class="skill">Critical thinking</span><span class="skill">Adaptability</span><span class="skill">Creativity</span><span class="skill">Leadership</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="interests">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><div class="section-kicker mono">04 / Beyond the screen</div><h2>What keeps me inspired.</h2></div>
+          <p class="section-note">The things that add perspective, spark ideas, and make the process more interesting.</p>
+        </div>
+        <div class="interest-row">
+          <article class="interest reveal"><div class="interest-icon">✳</div><h3>Art & painting</h3><p>Finding color, form, and a little calm through creative practice.</p></article>
+          <article class="interest reveal"><div class="interest-icon">⌘</div><h3>Technology</h3><p>Exploring how thoughtful technology can make everyday life better.</p></article>
+          <article class="interest reveal"><div class="interest-icon">↗</div><h3>Community</h3><p>Learning through volunteering, events, and working alongside others.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="wrap">
+        <div class="section-kicker mono">05 / Let's connect</div>
+        <h2>Have an idea?<br>Let's make it happen.</h2>
+        <div class="contact-bottom">
+          <p>I'm open to learning opportunities, collaborations, and conversations around data, technology, and creative projects.</p>
+          <div class="actions">
+            <!-- Replace the placeholder email and profile links with your own. -->
+            <a class="btn" href="mailto:your.email@example.com">your.email@example.com ↗</a>
+            <a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap footer-line"><span>© <span id="year"></span> Mayookha UK. Made with curiosity.</span><a href="#home">Back to top ↑</a></div>
+  </footer>
+  <script>
+    // Mobile navigation
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      menuBtn.textContent = isOpen ? '✕' : '☰';
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.textContent = '☰';
+    }));
+
+    // Subtle reveal animations as sections enter the viewport
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Header treatment and active section navigation
+    const topbar = document.getElementById('topbar');
+    const sections = document.querySelectorAll('main section[id]');
+    const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+    window.addEventListener('scroll', () => {
+      topbar.classList.toggle('scrolled', window.scrollY > 16);
+      let current = 'home';
+      sections.forEach(section => {
+        if (window.scrollY >= section.offsetTop - 150) current = section.id;
+      });
+      navAnchors.forEach(anchor => {
+        anchor.classList.toggle('active', anchor.getAttribute('href') === '#' + current);
+      });
+    }, { passive: true });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
